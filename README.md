@@ -114,7 +114,7 @@ financial-product-workflow/
 
 ---
 
-## 🔧 工具串联
+## 🔧 工具串联（支持自定义绑定）
 
 **OpenClaw + Claude Code + 开发工具：**
 
@@ -122,11 +122,24 @@ financial-product-workflow/
 OpenClaw (对话)
     ↓ 生成 PRD/需求/方案
 Claude Code (工具调用)
-    ↓ 调用 API
+    ↓ 调用 API（如有配置）
 开发工具 (Jira/Confluence/墨刀/神策)
     ↓ 创建 Issue/文档/原型
-输出：可执行的链接和文档
+输出：可执行的链接和文档（或 Markdown 降级输出）
 ```
+
+**📊 工具支持清单：** [TOOLS_SUPPORT.md](TOOLS_SUPPORT.md)
+
+**已支持工具：**
+- ✅ 项目管理：Jira Cloud
+- ✅ 文档协作：Confluence Cloud
+- ✅ 代码托管：GitHub
+- ✅ 通讯通知：钉钉/企业微信/飞书
+- ✅ 搜索调研：SearXNG（内置）
+
+**待支持工具：** Trello/禅道/飞书文档/墨刀/Figma/神策数据等（可提需求）
+
+**自定义绑定：** 参考 [TOOLS_SUPPORT.md](TOOLS_SUPPORT.md) 添加自己的工具
 
 ---
 
