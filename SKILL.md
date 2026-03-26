@@ -198,55 +198,83 @@ tags: [金融产品，产品经理，工作流，PRD, 自运营，工具串联�
 
 ---
 
-## 🔧 工具串联能力
+## 🔧 工具串联能力（含降级方案）
 
-### OpenClaw + Claude Code 协同
+### 设计原则：工具可选，不绑定
 
-**场景 1：PRD 文档生成**
-```
-OpenClaw (对话)
-    ↓ 生成 PRD 大纲
-Claude Code (工具调用)
-    ↓ 调用 Confluence API
-Confluence
-    ↓ 创建文档
-输出：PRD 文档链接
-```
+**核心思路：**
+- ✅ **有工具** → 调用 API，自动化创建
+- ✅ **无工具** → 生成文档/Markdown，手动复制
+- ✅ **广义搜索** → 使用 searxng/web_search 获取竞品信息
 
-**场景 2：需求管理**
-```
-OpenClaw (对话)
-    ↓ 生成需求列表
-Claude Code (工具调用)
-    ↓ 调用 Jira API
-Jira
-    ↓ 创建 Issue
-输出：Jira Issue 链接
-```
+### 降级方案（3 层）
 
-**场景 3：自运营效果验证**
 ```
-OpenClaw (对话)
-    ↓ 定义自运营指标
-Claude Code (工具调用)
-    ↓ 调用神策 API
-神策数据
-    ↓ 拉取数据
-输出：自运营效果报告
+Level 1（完整工具链）
+├─ Jira API → 创建 Issue
+├─ Confluence API → 创建文档
+├─ 墨刀 API → 生成原型
+└─ 神策 API → 查询数据
+
+Level 2（部分工具）
+├─ Jira/Confluence → 手动创建
+├─ 墨刀 → 文字描述原型
+└─ 神策 → 手动导出数据
+
+Level 3（无工具，仅 AI）
+├─ 输出 Markdown 文档
+├─ 输出文字原型描述
+├─ 输出待办清单
+└─ 使用 searxng 搜索竞品信息
 ```
 
-### 工具集成脚本
+### 工具配置检测
+
+**提示词中自动检测：**
+```markdown
+【工具配置检测】
+- Jira API：[已配置/未配置]
+- Confluence API：[已配置/未配置]
+- 原型工具：[已配置/未配置]
+- 数据工具：[已配置/未配置]
+
+→ 根据配置自动选择输出方式：
+  - 已配置：调用 API，输出链接
+  - 未配置：输出 Markdown/文字描述
+```
+
+### 工具集成脚本（可选）
 
 **脚本位置：** `scripts/` 目录
 
-| 脚本 | 用途 | 工具 |
-|------|------|------|
-| `jira-create-issue.py` | 创建 Jira Issue | Jira API |
-| `confluence-create-page.py` | 创建 Confluence 页面 | Confluence API |
-| `moodo-generate-prototype.py` | 生成墨刀原型 | 墨刀 API |
-| `git-create-branch.py` | 创建 Git 分支 | Git API |
-| `senze-query-event.py` | 查询神策事件 | 神策 API |
-| `slack-notify.py` | 发送通知 | 钉钉/企微 API |
+| 脚本 | 用途 | 工具 | 状态 |
+|------|------|------|------|
+| `jira-create-issue.py` | 创建 Jira Issue | Jira API | ✅ 可用 |
+| `confluence-create-page.py` | 创建 Confluence 页面 | Confluence API | ✅ 可用 |
+| `moodo-generate-prototype.py` | 生成墨刀原型 | 墨刀 API | ⚠️ 需确认 |
+| `git-create-branch.py` | 创建 Git 分支 | Git CLI | ✅ 可用 |
+| `senze-query-event.py` | 查询神策事件 | 神策 API | ⚠️ 需确认 |
+| `slack-notify.py` | 发送通知 | 钉钉/企微 API | ✅ 可用 |
+| `searxng-search.py` | 搜索竞品信息 | SearXNG | ✅ 可用（内置） |
+
+**降级使用示例：**
+```python
+# 伪代码：工具调用 + 降级
+def create_issue(summary, description):
+    if config.has_jira_api():
+        # Level 1：调用 API
+        issue = jira.create_issue(summary, description)
+        return f"✅ 已创建 Jira Issue: {issue.key}"
+    else:
+        # Level 3：输出 Markdown
+        return f"""
+📋 待创建 Jira Issue
+
+**标题：** {summary}
+**描述：** {description}
+**操作：** 请手动在 Jira 中创建
+"""
+```
 
 ---
 
