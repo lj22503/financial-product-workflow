@@ -165,9 +165,30 @@ Claude Code (工具调用)
 ## 📞 支持与反馈
 
 - **问题反馈**：[GitHub Issues](https://github.com/lj22503/financial-product-workflow/issues)
-- **使用登记**：[USAGE_TRACKING.md](USAGE_TRACKING.md)（待创建）
+- **贡献指南**：[CONTRIBUTING.md](CONTRIBUTING.md)
 - **作者**：燃冰 + ant
 - **版本**：v1.0.0（2026-03-26）
+
+---
+
+## 📄 许可证
+
+本项目采用 [MIT 许可证](LICENSE)。
+
+**Copyright (c) 2026 燃冰 (燃冰 & ant)**
+
+详见 [LICENSE](LICENSE) 文件。
+
+**简单来说：**
+- ✅ 你可以自由使用、修改、分发、商用
+- ✅ 需要保留原作者版权和许可证声明
+- ❌ 不提供任何担保，使用风险自负
+
+**合规声明：**
+- 本技能仅提供产品设计工作流指导
+- 不替代专业合规审查
+- 不替代技术开发
+- 需配合具体公司产品流程调整
 
 ---
 
